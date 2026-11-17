@@ -1,12 +1,14 @@
-import { Link } from 'react-router';
 import { Section } from '@/components/home/Section';
-import { Button } from '@/components/ui/Button';
 import { SmartImage } from '@/components/ui/SmartImage';
 import { ArchiveGrid } from '@/components/work/ArchiveGrid';
 import { home } from '@/content/home';
 import { archiveProjects } from '@/content/projects';
 import type { Project } from '@/content/projects';
 
+/**
+ * One archive card. If the project has a live link (`href` in projects.ts),
+ * the whole card opens it in a new tab; otherwise the card is just a card.
+ */
 function ArchiveCard({ project }: { project: Project }) {
   return (
     <article className="group/card relative flex h-full flex-col overflow-hidden rounded-tile-sm border border-line bg-surface transition-shadow duration-300 hover:shadow-lift">
@@ -20,12 +22,19 @@ function ArchiveCard({ project }: { project: Project }) {
       </div>
       <div className="flex flex-col gap-1 p-4">
         <h3 className="font-display text-body font-semibold">
-          <Link
-            to={{ pathname: '/archive', hash: `#${project.slug}` }}
-            className="outline-none after:absolute after:inset-0 after:rounded-tile-sm focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-focus"
-          >
-            {project.title}
-          </Link>
+          {project.href ? (
+            <a
+              href={project.href}
+              target="_blank"
+              rel="noreferrer"
+              className="outline-none after:absolute after:inset-0 after:rounded-tile-sm focus-visible:after:outline-2 focus-visible:after:outline-offset-2 focus-visible:after:outline-focus"
+            >
+              {project.title} <span aria-hidden="true">↗</span>
+              <span className="sr-only"> (opens in a new tab)</span>
+            </a>
+          ) : (
+            project.title
+          )}
         </h3>
         <p className="text-micro text-ink-muted">{project.tags.join(' · ')}</p>
       </div>
@@ -33,21 +42,12 @@ function ArchiveCard({ project }: { project: Project }) {
   );
 }
 
-/** Compact row of archive projects with a link through to /archive. */
+/** The archive: a compact grid of smaller projects. */
 export function ArchiveTeaser() {
   const { archive } = home;
 
   return (
-    <Section
-      id="archive"
-      heading={archive.heading}
-      intro={archive.intro}
-      action={
-        <Button to="/archive" variant="secondary">
-          {archive.linkLabel} <span aria-hidden="true">→</span>
-        </Button>
-      }
-    >
+    <Section id="archive" heading={archive.heading} intro={archive.intro}>
       <ArchiveGrid
         items={archiveProjects}
         getKey={(project) => project.slug}

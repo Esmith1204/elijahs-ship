@@ -67,7 +67,7 @@ export function CaseToc({ items, ids, articleRef }: CaseTocProps) {
       <details
         open={menuOpen}
         onToggle={(event) => setMenuOpen(event.currentTarget.open)}
-        className="group/toc sticky top-20 z-20 rounded-tile-sm glass lg:hidden"
+        className="group/toc sticky top-20 z-20 rounded-tile-sm border border-line-strong bg-surface/90 shadow-tile backdrop-blur-md transition-[top] duration-500 ease-out-expo lg:hidden [html[data-nav-hidden]_&]:top-4"
       >
         <summary className="flex h-12 cursor-pointer list-none items-center justify-between gap-3 px-4 text-small font-medium [&::-webkit-details-marker]:hidden">
           <span>

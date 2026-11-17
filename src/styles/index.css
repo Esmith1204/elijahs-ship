@@ -59,11 +59,6 @@
   --selection-handle: var(--surface);
   --selection-tag: var(--figma-blue-deep);
   --selection-tag-fg: var(--on-accent);
-  /* Glass (nav) */
-  --glass-bg: color-mix(in srgb, var(--surface) 50%, transparent);
-  --glass-bg-strong: color-mix(in srgb, var(--surface) 68%, transparent);
-  --glass-border: color-mix(in srgb, var(--ink-base) 10%, transparent);
-  --glass-sheen: color-mix(in srgb, var(--on-accent) 70%, transparent);
 }
 
 /*
@@ -89,10 +84,6 @@
   --selection-handle: var(--blue);
   --selection-tag: var(--on-accent);
   --selection-tag-fg: var(--blue);
-  --glass-bg: color-mix(in srgb, var(--on-accent) 7%, transparent);
-  --glass-bg-strong: color-mix(in srgb, var(--on-accent) 11%, transparent);
-  --glass-border: color-mix(in srgb, var(--on-accent) 24%, transparent);
-  --glass-sheen: color-mix(in srgb, var(--on-accent) 22%, transparent);
 }
 
 @theme inline {
@@ -245,38 +236,6 @@
   ::selection {
     background-color: color-mix(in srgb, var(--figma-blue) 28%, transparent);
   }
-}
-
-/*
- * Frosted glass (the nav). A faint top highlight, a blur that softens and
- * saturates whatever passes behind, and a hairline border.
- */
-@utility glass {
-  background: linear-gradient(180deg, var(--glass-sheen), transparent 70%), var(--glass-bg);
-  -webkit-backdrop-filter: blur(16px) saturate(125%);
-  backdrop-filter: blur(16px) saturate(125%);
-  border: 1px solid var(--glass-border);
-  box-shadow:
-    inset 0 1px 0 var(--glass-sheen),
-    0 10px 30px -14px color-mix(in srgb, var(--ink-base) 45%, transparent);
-}
-
-/* A little more frost once the page scrolls. Pair with `glass`. */
-@utility glass-strong {
-  --glass-bg: var(--glass-bg-strong);
-}
-
-/* Blurred fade along the top edge: content dissolves as it slides under the nav. */
-@utility top-fade {
-  background: linear-gradient(
-    to bottom,
-    color-mix(in srgb, var(--bg) 55%, transparent),
-    transparent
-  );
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  -webkit-mask-image: linear-gradient(to bottom, black 35%, transparent);
-  mask-image: linear-gradient(to bottom, black 35%, transparent);
 }
 
 /* Primary action fill: the gradient on light, white on blue. */

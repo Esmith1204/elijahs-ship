@@ -1,23 +1,26 @@
 # Editing the site's content
 
-All text and project data lives in this folder. You never need to open a component to change words.
+Every word on the site lives in this folder (`src/content/`). You never need to open a component to change text.
 
-| I want to...                                     | Edit this file             |
-| ------------------------------------------------ | -------------------------- |
-| Change any text on the homepage                  | `home.ts`                  |
-| Add, remove or edit a project (bento or archive) | `projects.ts`              |
-| Update the experience list                       | `experience.ts`            |
-| Change my name, email, social links or resume    | `site.ts`                  |
-| Switch the whole site between blue and light     | `site.ts` (`theme`)        |
-| Write or edit a case study                       | `caseStudies/<project>.ts` |
+| I want to change...                                                      | Edit this file              |
+| ------------------------------------------------------------------------ | --------------------------- |
+| Nav links, hero line, buttons, section headings, about bio, contact text | `home.ts`                   |
+| Tools and "Where I've designed" names and icons                          | `home.ts` (`tools`, `orgs`) |
+| Projects: bento tiles, archive cards, tags, links                        | `projects.ts`               |
+| Experience list                                                          | `experience.ts`             |
+| Name, email, social links, resume, page title, theme                     | `site.ts`                   |
+| A case study                                                             | `caseStudies/<project>.ts`  |
+| The 404 page                                                             | `pages.ts`                  |
 
 Save the file and the dev server updates the page. Text goes between quotes. If the text itself contains an apostrophe, use the curly one (`’`) or wrap the text in double quotes.
 
-## Change homepage text
+## Homepage text
 
-Open `home.ts`. It is laid out in page order: nav, hero, tools, orgs, work, archive, about, contact. Change the words, keep the punctuation around them.
+Open `home.ts`. It is laid out in page order: nav, hero, tools, orgs, projects, archive, about, contact.
 
-The hero line has three drafts in `statementOptions`. Set `statement` to `0`, `1` or `2` to pick one, or replace the text.
+The hero line has drafts in `statementOptions`. Set `statement` to the number of the one you want (starting at `0`), or replace the text.
+
+To add a tool or org, add it to `tools.items` or `orgs.items` and drop its image in `public/images/tools/` or `public/images/logos/`. Its spot in the floating cluster is set in `src/components/home/toolsLayout.ts` (position, tilt and size, as percentages). Anything without a spot there gets placed below the cluster.
 
 ## Add a project
 
@@ -28,7 +31,7 @@ Open `projects.ts`, copy this block into the `projects` list and fill it in:
   slug: 'my-project',            // used in the URL, lowercase with dashes
   title: 'My Project',
   summary: 'One line: what it is.',
-  outcome: 'One line: what came of it.',
+  outcome: 'One line: what came of it.', // '' to show the summary instead
   role: 'Product Designer',
   team: '2 designers + 1 SWE',   // optional
   timeline: 'Jan 2026 → Mar 2026', // optional
@@ -41,26 +44,19 @@ Open `projects.ts`, copy this block into the `projects` list and fill it in:
     width: 1600,
     height: 1200,
   },
-  featured: false,               // false = archive, true = homepage bento + case study
-  details: {                     // optional, shown on the archive page
-    year: '2026',
-    description: [
-      'First paragraph.',
-      'Second paragraph.',
-    ],
-    tools: ['Figma', 'React'],
-    links: [{ label: 'Live site', href: 'https://example.com' }],
-  },
+  featured: false,               // false = archive card, true = bento tile + case study
+  href: 'https://example.com',   // optional live link
+  hrefLabel: 'View the pitch deck', // optional button text for that link
 },
 ```
 
-- `featured: false` puts it in the archive. That is all an archive project needs.
-- `featured: true` puts it in the homepage bento and gives it a case study page at `/work/your-slug`. Also set `size` (`'large'` or `'medium'`) and `tone` (`'surface'`, `'purple'` or `'blue'`).
-- The filter chips and their counts update on their own.
+- `featured: false` puts it in the archive grid. If it has an `href`, the card opens that link.
+- `featured: true` puts it in the Selected Projects bento and gives it a case study page at `/work/your-slug` (see below). Also set `size` (`'large'` or `'medium'`) and `tone` (`'surface'`, `'purple'` or `'blue'`). Ordering large, medium, medium, large gives the staggered bento.
+- Archive cards resize to fit: up to six per row, then a new row. The filter chips and counts update on their own.
 
 ## Write a case study
 
-Each featured project has a file in `caseStudies/`: `grouper.ts`, `needle.ts`, `rideshare.ts`, `kainNa.ts`. Every section of the case study page is a field in that file, in page order:
+Each featured project has a file in `caseStudies/`: `grouper.ts`, `needle.ts`, `rideshare.ts`, `kainNa.ts`. Every section of the page is a field in that file, in page order:
 
 | Field          | Section on the page                                        |
 | -------------- | ---------------------------------------------------------- |
@@ -83,9 +79,9 @@ To add a new case study: add the project to `projects.ts` with `featured: true`,
 
 ## Add images
 
-Drop the file into `public/images/` at the path you wrote in `src`. Until the file exists the site shows a placeholder naming the file it is waiting for. See `public/images/README.md` for sizes and names.
+Drop the file into `public/images/` at the path you wrote in `src`. Until the file exists the site shows a placeholder naming the file it is waiting for. See `public/images/README.md` for sizes and names. Bento covers are cropped to fit their tile, so keep the important part of the image near the middle.
 
 ## Rules of thumb
 
-- Never invent numbers, quotes or outcomes. Leave `TODO: ...` in the text until you have the real thing: it is easy to search for.
-- Keep `outcome` and `summary` to one line each. Long text belongs in `details.description` or the case study.
+- Never invent numbers, quotes or outcomes. Leave `TODO: ...` in the text until you have the real thing.
+- Keep `outcome` and `summary` to one line each. Long text belongs in the case study.

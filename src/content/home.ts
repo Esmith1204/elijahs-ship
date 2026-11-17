@@ -17,7 +17,7 @@ export const home = {
   /** Links in the floating nav. `to` is a section (#id), a page (/path) or "resume". */
   nav: [
     { label: 'Projects', to: '#work' },
-    { label: 'Archive', to: '/archive' },
+    { label: 'Archive', to: '#archive' },
     { label: 'About', to: '#about' },
     { label: 'Resume', to: 'resume' },
     { label: 'Contact', to: '#contact' },
@@ -75,7 +75,6 @@ export const home = {
   archive: {
     heading: 'The Archive',
     intro: 'Intern projects, experiments, and prototypes.',
-    linkLabel: 'View archive',
   },
 
   about: {

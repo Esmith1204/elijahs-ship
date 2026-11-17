@@ -42,18 +42,10 @@ export type Project = {
   size?: 'large' | 'medium';
   /** Tile tint. */
   tone?: 'surface' | 'purple' | 'blue';
-  /** Live link, if public. */
+  /** Live link, if public. Archive cards open it in a new tab. */
   href?: string;
   /** Button text for that link. Defaults to "Visit the live project". */
   hrefLabel?: string;
-  /** Longer write-up shown on the archive page. All optional. */
-  details?: {
-    year?: string;
-    /** One string per paragraph. */
-    description?: string[];
-    tools?: string[];
-    links?: { label: string; href: string }[];
-  };
 };
 
 export const projects: Project[] = [

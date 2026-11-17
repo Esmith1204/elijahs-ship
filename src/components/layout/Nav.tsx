@@ -4,7 +4,7 @@ import { Link, useLocation } from 'react-router';
 import { home } from '@/content/home';
 import { site } from '@/content/site';
 import { cn } from '@/lib/cn';
-import { useActiveSection, useScrolled } from '@/lib/hooks';
+import { useActiveSection, useNavHidden, useScrolled } from '@/lib/hooks';
 import { DURATION, EASE_OUT } from '@/lib/motion';
 
 /** Section ids the nav can highlight, in page order. */
@@ -62,36 +62,35 @@ function NavItem({ item, current, onNavigate, className }: NavItemProps) {
 }
 
 /**
- * Floating glass pill nav. Once the page scrolls, the glass thickens a little
- * and a soft blurred fade appears along the top edge, so content slides
- * under the nav instead of colliding with it.
+ * Floating pill nav. Smart: it slides away while you scroll down and comes
+ * back as soon as you scroll up. It turns more opaque once the page scrolls,
+ * and stays put while the mobile menu is open or a link has keyboard focus.
  */
 export function Nav() {
   const { pathname } = useLocation();
   const scrolled = useScrolled();
   const activeSection = useActiveSection(SECTION_IDS, pathname === '/');
   const [open, setOpen] = useState(false);
+  const hidden = useNavHidden() && !open;
 
   const isCurrent = (to: string) =>
     to.startsWith('#') ? pathname === '/' && activeSection === to.slice(1) : pathname === to;
 
   const shell = cn(
-    'glass transition-[background,box-shadow] duration-300',
-    (scrolled || open) && 'glass-strong',
+    'border transition-[background-color,border-color,box-shadow] duration-300',
+    scrolled || open
+      ? 'border-line-strong bg-surface/90 shadow-tile backdrop-blur-md'
+      : 'border-line bg-surface/40 backdrop-blur-sm',
   );
 
   return (
     <>
-      <div
-        aria-hidden="true"
-        className={cn(
-          'pointer-events-none fixed inset-x-0 top-0 z-30 h-24 top-fade transition-opacity duration-500',
-          scrolled ? 'opacity-100' : 'opacity-0',
-        )}
-      />
       <header
         onKeyDown={(event) => event.key === 'Escape' && setOpen(false)}
-        className="pointer-events-none fixed inset-x-0 top-4 z-40 flex flex-col items-center gap-2 px-4"
+        className={cn(
+          'pointer-events-none fixed inset-x-0 top-4 z-40 flex flex-col items-center gap-2 px-4 transition-transform duration-500 ease-out-expo focus-within:translate-y-0',
+          hidden && '-translate-y-[calc(100%+2rem)]',
+        )}
       >
         <nav
           aria-label="Primary"

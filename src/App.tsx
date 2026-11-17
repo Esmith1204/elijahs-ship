@@ -6,9 +6,9 @@ import { Layout } from '@/components/layout/Layout';
 // Each route is its own chunk.
 const Home = lazy(() => import('@/pages/Home'));
 const CaseStudy = lazy(() => import('@/pages/CaseStudy'));
-const Archive = lazy(() => import('@/pages/Archive'));
 const Styleguide = lazy(() => import('@/pages/styleguide/Styleguide'));
 const WaveLab = lazy(() => import('@/pages/lab/WaveLab'));
+const ShareImage = lazy(() => import('@/pages/lab/ShareImage'));
 const NotFound = lazy(() => import('@/pages/NotFound'));
 
 export function App() {
@@ -20,10 +20,10 @@ export function App() {
           <Routes>
             {/* Dev playground: full screen, no site chrome. */}
             <Route path="lab/wave" element={<WaveLab />} />
+            <Route path="lab/share" element={<ShareImage />} />
             <Route element={<Layout />}>
               <Route index element={<Home />} />
               <Route path="work/:slug" element={<CaseStudy />} />
-              <Route path="archive" element={<Archive />} />
               <Route path="styleguide" element={<Styleguide />} />
               <Route path="*" element={<NotFound />} />
             </Route>

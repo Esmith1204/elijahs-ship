@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
-import { useEffect, useRef, useState } from 'react';
+import { useRef } from 'react';
 import { HeroWave } from '@/components/hero/HeroWave';
+import { useWaterlineBelow } from '@/components/hero/useWaterlineBelow';
 import { defaultWaveSettings } from '@/components/hero/wave/settings';
 import type { WaveSettings } from '@/components/hero/wave/settings';
 import { MaskedHeading } from '@/components/motion/Reveal';
@@ -34,20 +35,9 @@ const rise = (delay: number) => ({
 export function Hero() {
   const { hero } = home;
   const actionsRef = useRef<HTMLDivElement>(null);
-  const [minWaterline, setMinWaterline] = useState(0);
-
   // Wherever the text ends (it wraps differently at every width), the water
   // sits below it, so the boat is never hidden behind the buttons.
-  useEffect(() => {
-    const actions = actionsRef.current;
-    if (!actions) return;
-    const measure = () =>
-      setMinWaterline(actions.offsetTop + actions.offsetHeight + BOAT_CLEARANCE);
-    const observer = new ResizeObserver(measure);
-    observer.observe(actions);
-    if (actions.offsetParent) observer.observe(actions.offsetParent);
-    return () => observer.disconnect();
-  }, []);
+  const minWaterline = useWaterlineBelow(actionsRef, BOAT_CLEARANCE);
 
   return (
     <section
@@ -82,7 +72,7 @@ export function Hero() {
           <Button href="#work" size="lg">
             {hero.primaryCta}
           </Button>
-          <Button href={`mailto:${site.email}`} variant="secondary" size="lg">
+          <Button href="#contact" variant="secondary" size="lg">
             {hero.secondaryCta}
           </Button>
         </motion.div>

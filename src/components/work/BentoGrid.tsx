@@ -20,8 +20,7 @@ type BentoGridProps = {
 /**
  * Filter chips with counts above a bento grid of project tiles.
  *
- * Layout (desktop): three columns; a `large` tile spans two, a `medium` tile
- * one. Ordering large, medium, medium, large in projects.ts gives the
+ * Layout (desktop): a `large` tile takes 7 of 12 columns, a `medium` tile 5. Ordering large, medium, medium, large in projects.ts gives the
  * staggered two-row bento. Rows are sized from the viewport height, so two
  * rows fit on one screen. Tiles re-flow with Motion `layout` when filtering.
  */
@@ -47,7 +46,7 @@ export function BentoGrid({ projects, filterLabel, allLabel }: BentoGridProps) {
   return (
     <div className="flex flex-col gap-6">
       <FilterChips label={filterLabel} options={options} value={filter} onChange={setFilter} />
-      <ul className="grid grid-flow-dense auto-rows-[minmax(22rem,auto)] gap-4 md:grid-cols-2 lg:auto-rows-[clamp(20rem,38svh,25rem)] lg:grid-cols-3">
+      <ul className="grid grid-flow-dense auto-rows-[minmax(24rem,auto)] gap-4 md:grid-cols-2 lg:auto-rows-[clamp(26rem,52svh,31rem)] lg:grid-cols-12">
         <AnimatePresence mode="popLayout" initial={false}>
           {visible.map((project) => (
             <motion.li
@@ -61,7 +60,7 @@ export function BentoGrid({ projects, filterLabel, allLabel }: BentoGridProps) {
               // label is never covered by the tile below it.
               className={cn(
                 'relative z-0 focus-within:z-10 hover:z-10',
-                project.size === 'large' && 'md:col-span-2',
+                project.size === 'large' ? 'md:col-span-2 lg:col-span-7' : 'lg:col-span-5',
               )}
             >
               <ProjectTile project={project} />
