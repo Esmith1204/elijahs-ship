@@ -148,14 +148,15 @@ export const projects: Project[] = [
     outcome: '',
     role: 'Product Design Intern',
     categories: ['development'],
-    tags: ['Framer', 'Development'],
+    tags: ['React', 'Development'],
     cover: {
       src: '/images/archive/prequaly.webp',
-      alt: 'PreQualy website built in Framer',
-      width: 1600,
-      height: 1200,
+      alt: 'PreQualy website showing sign-up cards for homebuyers, professionals, agencies and nonprofits',
+      width: 2848,
+      height: 1290,
     },
     featured: false,
+    href: 'https://www.prequaly.ai',
   },
   {
     slug: 'rokkage-31',
@@ -167,11 +168,12 @@ export const projects: Project[] = [
     tags: ['Branding'],
     cover: {
       src: '/images/archive/rokkage-31.webp',
-      alt: 'Rokkage 31 brand identity',
-      width: 1600,
-      height: 1200,
+      alt: 'Rokkage31 Discord bot explaining a block of Python code',
+      width: 1564,
+      height: 1398,
     },
     featured: false,
+    href: 'https://github.com/Esmith1204/Rokkage31',
   },
   {
     slug: 'productivity-dashboard',
@@ -183,11 +185,12 @@ export const projects: Project[] = [
     tags: ['Dashboard'],
     cover: {
       src: '/images/archive/productivity-dashboard.webp',
-      alt: 'Productivity Dashboard interface',
-      width: 1600,
-      height: 1200,
+      alt: 'Productivity dashboard with a clock, weather, Pomodoro timer, water tracker and to-do list',
+      width: 2880,
+      height: 1276,
     },
     featured: false,
+    href: 'https://elijahsproductivitydashboard.figma.site',
   },
   {
     slug: 'untitled-tab-app',
@@ -199,11 +202,12 @@ export const projects: Project[] = [
     tags: ['App'],
     cover: {
       src: '/images/archive/untitled-tab-app.webp',
-      alt: 'Untitled Tab App interface',
-      width: 1600,
-      height: 1200,
+      alt: 'Untitled Tab App account screen with saved presets',
+      width: 1702,
+      height: 1266,
     },
     featured: false,
+    href: 'https://untitled-tab-app.vercel.app',
   },
 ];
 

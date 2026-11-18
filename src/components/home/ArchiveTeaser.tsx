@@ -17,7 +17,7 @@ function ArchiveCard({ project }: { project: Project }) {
           image={project.cover}
           label={project.title}
           compact
-          className="size-full transition-transform duration-500 ease-out-expo group-hover/card:scale-103"
+          className="size-full object-top transition-transform duration-500 ease-out-expo group-hover/card:scale-103"
         />
       </div>
       <div className="flex flex-col gap-1 p-4">

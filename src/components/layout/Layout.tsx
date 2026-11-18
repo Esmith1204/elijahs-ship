@@ -2,6 +2,7 @@ import { useEffect, useLayoutEffect } from 'react';
 import { Outlet, useLocation } from 'react-router';
 import { ContactFooter } from '@/components/layout/ContactFooter';
 import { Nav } from '@/components/layout/Nav';
+import { UnderwaterBackdrop } from '@/components/layout/UnderwaterBackdrop';
 import { site } from '@/content/site';
 
 /** How long to keep looking for a #section that a lazy route hasn't rendered yet. */
@@ -48,11 +49,14 @@ export function Layout() {
 
       <Nav />
 
-      <main id="main">
-        <Outlet />
-      </main>
-
-      <ContactFooter />
+      {/* The underwater backdrop sits behind the page content and the footer. */}
+      <div className="relative isolate">
+        <UnderwaterBackdrop />
+        <main id="main">
+          <Outlet />
+        </main>
+        <ContactFooter />
+      </div>
     </>
   );
 }

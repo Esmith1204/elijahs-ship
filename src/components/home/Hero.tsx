@@ -19,11 +19,17 @@ const waveSettings: WaveSettings = { ...defaultWaveSettings, palette: site.theme
  * these are the DOM beats layered over it.
  */
 const NAME_AT = 0.15;
-const COPY_AT = 0.7;
-const PEN_AT = 1.3;
+const COPY_AT = 0.4;
+const PEN_AT = 1.1;
 
 /** Room between the buttons and the water for the boat and its smoke, in px. */
 const BOAT_CLEARANCE = 104;
+
+/**
+ * How deep the water below the wave reaches before the hero ends, in px.
+ * Kept shallow so the next section follows the waterline closely.
+ */
+const WATER_DEPTH = 200;
 
 const rise = (delay: number) => ({
   initial: { opacity: 0, y: RISE },
@@ -47,11 +53,13 @@ export function Hero() {
       <HeroWave
         settings={waveSettings}
         minWaterline={minWaterline}
+        maxWaterDepth={WATER_DEPTH}
+        fadeWater
         className="absolute inset-0 -z-10"
       />
 
       {/* The bottom padding is the open water the boat sails on. */}
-      <div className="mx-auto flex w-full max-w-content flex-col items-start gap-6 px-gutter pt-nav pb-80">
+      <div className="mx-auto flex w-full max-w-content flex-col items-start gap-6 px-gutter pt-nav pb-64">
         <SelectionBox mode="draw" delay={PEN_AT}>
           {/* overflow-hidden is the reveal mask; the bottom padding keeps the "j" inside it. */}
           <MaskedHeading

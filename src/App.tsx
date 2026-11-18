@@ -6,10 +6,13 @@ import { Layout } from '@/components/layout/Layout';
 // Each route is its own chunk.
 const Home = lazy(() => import('@/pages/Home'));
 const CaseStudy = lazy(() => import('@/pages/CaseStudy'));
-const Styleguide = lazy(() => import('@/pages/styleguide/Styleguide'));
-const WaveLab = lazy(() => import('@/pages/lab/WaveLab'));
-const ShareImage = lazy(() => import('@/pages/lab/ShareImage'));
 const NotFound = lazy(() => import('@/pages/NotFound'));
+
+// Dev-only tools: `npm run dev` serves them; the production build leaves them
+// out entirely (import.meta.env.DEV is false there, so these chunks are never built).
+const Styleguide = import.meta.env.DEV ? lazy(() => import('@/pages/styleguide/Styleguide')) : null;
+const WaveLab = import.meta.env.DEV ? lazy(() => import('@/pages/lab/WaveLab')) : null;
+const ShareImage = import.meta.env.DEV ? lazy(() => import('@/pages/lab/ShareImage')) : null;
 
 export function App() {
   return (
@@ -19,12 +22,12 @@ export function App() {
         <Suspense fallback={null}>
           <Routes>
             {/* Dev playground: full screen, no site chrome. */}
-            <Route path="lab/wave" element={<WaveLab />} />
-            <Route path="lab/share" element={<ShareImage />} />
+            {WaveLab && <Route path="lab/wave" element={<WaveLab />} />}
+            {ShareImage && <Route path="lab/share" element={<ShareImage />} />}
             <Route element={<Layout />}>
               <Route index element={<Home />} />
               <Route path="work/:slug" element={<CaseStudy />} />
-              <Route path="styleguide" element={<Styleguide />} />
+              {Styleguide && <Route path="styleguide" element={<Styleguide />} />}
               <Route path="*" element={<NotFound />} />
             </Route>
           </Routes>

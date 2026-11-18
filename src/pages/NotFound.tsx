@@ -42,6 +42,7 @@ export default function NotFound() {
       <HeroWave
         settings={waveSettings}
         minWaterline={minWaterline}
+        fadeWater
         className="absolute inset-0 -z-10"
       />
 

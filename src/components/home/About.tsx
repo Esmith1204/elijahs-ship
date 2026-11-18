@@ -13,7 +13,11 @@ export function About() {
       <div className="grid gap-10 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-16">
         <Reveal>
           <div className="aspect-4/5 overflow-hidden rounded-tile-lg border border-line">
-            <SmartImage image={about.photo} label="Portrait" className="size-full" />
+            <SmartImage
+              image={about.photo}
+              label="Portrait"
+              className="size-full object-[center_35%]"
+            />
           </div>
         </Reveal>
 

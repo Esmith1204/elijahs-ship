@@ -1,17 +1,14 @@
-import { motion } from 'motion/react';
 import type { ReactNode } from 'react';
 import { cn } from '@/lib/cn';
 
-/** Seconds for one slow rise and fall. */
+/** Seconds for one slow rise and fall. Matches the `bob` keyframes in index.css. */
 const BOB_SECONDS = 4.5;
-/** Pixels of travel. Kept small so text stays easy to read. */
-const BOB_PX = 4;
 
 type BobProps = {
   children: ReactNode;
   /**
-   * Position along the row, 0 to 1 (left to right). Items further right start
-   * later, so a row reads as one swell passing under it.
+   * Position along the row, 0 to 1 (left to right). Items further right are
+   * further through their cycle, so a row reads as one swell passing under it.
    */
   phase?: number;
   /** Render as a list item instead of a div. */
@@ -20,21 +17,16 @@ type BobProps = {
 };
 
 /**
- * Floats its content up and down, as if riding the water. Transform only, so
- * reduced-motion users (MotionConfig reducedMotion="user") see it still.
+ * Floats its content up and down, as if riding the water. A CSS animation,
+ * so the GPU runs it off the main thread. The global reduced-motion rule in
+ * index.css holds it still.
  */
-export function Bob({ children, phase = 0, as = 'div', className }: BobProps) {
-  const Tag = motion[as];
+export function Bob({ children, phase = 0, as: Tag = 'div', className }: BobProps) {
   return (
     <Tag
-      animate={{ y: [0, -BOB_PX, 0] }}
-      transition={{
-        duration: BOB_SECONDS,
-        ease: 'easeInOut',
-        repeat: Infinity,
-        delay: phase * BOB_SECONDS,
-      }}
-      className={cn('will-change-transform', className)}
+      // A negative delay starts mid-cycle immediately instead of waiting.
+      style={{ animationDelay: `${-phase * BOB_SECONDS}s` }}
+      className={cn('animate-bob', className)}
     >
       {children}
     </Tag>

@@ -23,6 +23,16 @@ export type WaveScene = {
    * sails behind content laid over the canvas. 0 = no floor.
    */
   setMinWaterline: (px: number) => void;
+  /**
+   * The water below the resting surface is at most this many px deep, so the
+   * waterline sits near the bottom of the canvas. 0 = use settings.waterline.
+   */
+  setMaxWaterDepth: (px: number) => void;
+  /**
+   * true: the water fades to transparent toward the bottom of the canvas, so
+   * whatever is behind the canvas (the page's underwater backdrop) shows through.
+   */
+  setFadeWater: (fade: boolean) => void;
   /** Advance the water by `dt` seconds and draw. */
   frame: (dt: number) => void;
   /** Draw one resting frame: the reduced-motion version. */
@@ -51,6 +61,11 @@ const STILL_BOAT_X = 0.3;
 const INTRO_BOAT_X = 0.2;
 /** The sky stays deep until this fraction of its height, then brightens to the horizon. */
 const SKY_HOLD = 0.8;
+/**
+ * The bright horizon glow never reaches more than this many px above the
+ * water. Text sits higher than that, so it keeps 4.5:1 contrast on short screens.
+ */
+const SKY_BAND_PX = 140;
 const SMOKE_INTERVAL = 0.95;
 const SMOKE_LIFE = 2.2;
 /** Peak opacity of a fresh puff. */
@@ -62,6 +77,8 @@ const SMOKE_LINE = 1;
 const BOAT_STROKE_ALPHA = 0.9;
 /** Never push the water closer than this to the bottom edge. */
 const MIN_WATER_DEPTH = 40;
+/** With fadeWater, the water stays fully opaque this far below the crests. */
+const WATER_SOLID_PX = 56;
 
 /** Index 0 is the main line. The others sit behind it with parallax. */
 const LAYERS = [
@@ -103,6 +120,8 @@ const PALETTE_TOKENS: Record<
 type Colors = {
   sky: [string, string, string] | null;
   water: string;
+  /** The water color at zero alpha. */
+  waterClear: string;
   /** Stroke color at each quantised opacity. */
   strokeLevels: string[];
   grid: Rgba;
@@ -144,6 +163,7 @@ function readColors(palette: WavePalette): Colors {
         ]
       : null,
     water: rgba(token(tokens.water), 1),
+    waterClear: rgba(token(tokens.water), 0),
     strokeLevels: Array.from({ length: ALPHA_LEVELS + 1 }, (_, level) =>
       rgba(stroke, level / ALPHA_LEVELS),
     ),
@@ -155,11 +175,20 @@ function readColors(palette: WavePalette): Colors {
 
 export function createWaveScene(
   canvas: HTMLCanvasElement,
+  /**
+   * Optional canvas behind the main one for the sky. The sky only changes on
+   * resize (or while the water rises in the intro), so drawing it here instead
+   * of every frame saves a full-screen fill per frame.
+   */
+  skyCanvas: HTMLCanvasElement | null,
   initial: WaveSettings,
 ): WaveScene | null {
   const context = canvas.getContext('2d');
   if (!context) return null;
   const ctx: CanvasRenderingContext2D = context;
+  const skyCtx = skyCanvas?.getContext('2d') ?? null;
+  /** What the sky was last drawn for; it is redrawn only when this changes. */
+  let skyKey = '';
 
   let raw = initial;
   let settings = initial;
@@ -169,6 +198,10 @@ export function createWaveScene(
   let dpr = 1;
   let time = 0;
   let minWaterline = 0;
+  let maxWaterDepth = 0;
+  let fadeWater = false;
+  /** Resting waterline for this frame, in px from the top. */
+  let restLine = 0;
 
   let surfaces: Surface[] = [];
   const gridBuckets: number[][] = Array.from({ length: GRID_BUCKETS + 1 }, () => []);
@@ -215,11 +248,16 @@ export function createWaveScene(
   function updateSurfaces() {
     const rise = intro.rise;
     // During the intro the water comes up from below the canvas.
-    const sunk = (1 - rise) * (height * (1 - settings.waterline) + settings.amplitude + 8);
     const rest = Math.min(
-      Math.max(height * settings.waterline, minWaterline),
+      Math.max(
+        height * settings.waterline,
+        minWaterline,
+        maxWaterDepth > 0 ? height - maxWaterDepth : 0,
+      ),
       height - MIN_WATER_DEPTH,
     );
+    restLine = rest;
+    const sunk = (1 - rise) * (height - rest + settings.amplitude + 8);
     const mainBaseline = rest + sunk;
 
     surfaces.forEach((surface, index) => {
@@ -242,13 +280,27 @@ export function createWaveScene(
 
   function drawSky() {
     ctx.clearRect(0, 0, width, height);
+    const target = skyCtx ?? ctx;
+    // When the water fades out, the sky must stop at the water, or it would show through.
+    const skyBottom = fadeWater
+      ? (surfaces[0]?.baseline ?? restLine) + settings.amplitude + 4
+      : height;
+
+    if (skyCtx) {
+      const key = `${width}x${height}@${dpr}:${Math.round(restLine)}:${Math.round(skyBottom)}:${raw.palette}`;
+      if (key === skyKey) return;
+      skyKey = key;
+      skyCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      skyCtx.clearRect(0, 0, width, height);
+    }
     if (!colors.sky) return;
-    const gradient = ctx.createLinearGradient(0, 0, 0, height * settings.waterline);
+    const gradient = target.createLinearGradient(0, 0, 0, restLine);
     gradient.addColorStop(0, colors.sky[0]);
-    gradient.addColorStop(SKY_HOLD, colors.sky[1]);
+    const hold = Math.max(SKY_HOLD, 1 - SKY_BAND_PX / Math.max(restLine, 1));
+    gradient.addColorStop(hold, colors.sky[1]);
     gradient.addColorStop(1, colors.sky[2]);
-    ctx.fillStyle = gradient;
-    ctx.fillRect(0, 0, width, height);
+    target.fillStyle = gradient;
+    target.fillRect(0, 0, width, skyBottom);
   }
 
   /**
@@ -305,6 +357,17 @@ export function createWaveScene(
     for (let i = 1; i < xs.length; i++) ctx.lineTo(xs[i], ys[i]);
   }
 
+  /** Solid water just under the surface, clearing to transparent at the bottom edge. */
+  function waterFade(baseline: number): CanvasGradient {
+    const top = baseline - settings.amplitude;
+    const gradient = ctx.createLinearGradient(0, top, 0, height);
+    const solid = Math.min(0.9, WATER_SOLID_PX / Math.max(height - top, 1));
+    gradient.addColorStop(0, colors.water);
+    gradient.addColorStop(solid, colors.water);
+    gradient.addColorStop(1, colors.waterClear);
+    return gradient;
+  }
+
   /** Fill the water body, then stroke the surface with breathing opacity. */
   function drawSurface(surface: Surface, layerIndex: number) {
     const layer = LAYERS[layerIndex];
@@ -315,7 +378,7 @@ export function createWaveScene(
     ctx.lineTo(xs[last], height + 2);
     ctx.lineTo(xs[0], height + 2);
     ctx.closePath();
-    ctx.fillStyle = colors.water;
+    ctx.fillStyle = fadeWater ? waterFade(surface.baseline) : colors.water;
     ctx.fill();
 
     // Opacity varies along x, so one horizontal gradient carries it for the whole line.
@@ -448,22 +511,39 @@ export function createWaveScene(
       dpr = nextDpr;
       canvas.width = Math.round(width * dpr);
       canvas.height = Math.round(height * dpr);
+      if (skyCanvas) {
+        skyCanvas.width = canvas.width;
+        skyCanvas.height = canvas.height;
+        skyKey = '';
+      }
       configure();
     },
 
     setSettings(next) {
       const paletteChanged = next.palette !== raw.palette;
       raw = next;
-      if (paletteChanged) colors = readColors(next.palette);
+      if (paletteChanged) {
+        colors = readColors(next.palette);
+        skyKey = '';
+      }
       configure();
     },
 
     refreshColors() {
       colors = readColors(raw.palette);
+      skyKey = '';
     },
 
     setMinWaterline(px) {
       minWaterline = px;
+    },
+
+    setMaxWaterDepth(px) {
+      maxWaterDepth = px;
+    },
+
+    setFadeWater(fade) {
+      fadeWater = fade;
     },
 
     frame(dt) {

@@ -42,13 +42,13 @@ export const home = {
     heading: 'Tools I design with',
     /** `icon` is a file in public/images/tools (PNG or SVG). Until it exists, initials are shown. */
     items: [
-      { name: 'Figma', icon: '/images/tools/figma.png' },
-      { name: 'Framer', icon: '/images/tools/framer.png' },
-      { name: 'Affinity', icon: '/images/tools/affinity.png' },
-      { name: 'Illustrator', icon: '/images/tools/illustrator.png' },
-      { name: 'Procreate', icon: '/images/tools/procreate.png' },
-      { name: 'Notion', icon: '/images/tools/notion.png' },
-      { name: 'Claude Code', icon: '/images/tools/claude-code.png' },
+      { name: 'Figma', icon: '/images/tools/figma.webp' },
+      { name: 'Framer', icon: '/images/tools/framer.webp' },
+      { name: 'Affinity', icon: '/images/tools/affinity.webp' },
+      { name: 'Illustrator', icon: '/images/tools/illustrator.webp' },
+      { name: 'Procreate', icon: '/images/tools/procreate.webp' },
+      { name: 'Notion', icon: '/images/tools/notion.webp' },
+      { name: 'Claude Code', icon: '/images/tools/claude-code.webp' },
     ],
   },
 
@@ -56,12 +56,12 @@ export const home = {
     heading: 'Where I’ve designed',
     /** `logo` is a file in public/images/logos (PNG or SVG). Until it exists, the name is shown. */
     items: [
-      { name: 'Hack at UCI', logo: '/images/logos/hack-at-uci.png' },
-      { name: 'UCI ICS', logo: '/images/logos/uci-ics.png' },
-      { name: 'VenusHacks', logo: '/images/logos/venushacks.png' },
-      { name: 'FUSION ICS Project', logo: '/images/logos/fusion.png' },
-      { name: 'PreQualy', logo: '/images/logos/prequaly.png' },
-      { name: 'NMM Navigator', logo: '/images/logos/nmm-navigator.png' },
+      { name: 'Hack at UCI', logo: '/images/logos/hack-at-uci.webp' },
+      { name: 'UCI ICS', logo: '/images/logos/uci-ics.webp' },
+      { name: 'VenusHacks', logo: '/images/logos/venushacks.webp' },
+      { name: 'FUSION ICS Project', logo: '/images/logos/fusion.webp' },
+      { name: 'PreQualy', logo: '/images/logos/prequaly.webp' },
+      { name: 'NMM Navigator', logo: '/images/logos/nmm-navigator.webp' },
     ],
   },
 
@@ -85,9 +85,9 @@ export const home = {
     ],
     photo: {
       src: '/images/about/portrait.webp',
-      alt: 'Portrait of Elijah Smith',
-      width: 1200,
-      height: 1500,
+      alt: 'Elijah Smith in a black suit and tie, smiling, on a tree-lined campus walkway',
+      width: 2075,
+      height: 3130,
     } satisfies ProjectImage,
     experienceHeading: 'Experience',
   },
