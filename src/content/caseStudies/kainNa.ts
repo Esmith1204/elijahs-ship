@@ -9,9 +9,9 @@ export const kainNa: CaseStudy = {
 
   hero: {
     src: '/images/kain-na/cover.webp',
-    alt: 'Kain Na! cooking app showing a family recipe',
-    width: 2400,
-    height: 1500,
+    alt: 'Kain na! logo: a pig wearing a chef’s hat',
+    width: 1920,
+    height: 1080,
     caption: 'TODO: caption for the hero mockup.',
   },
 

@@ -10,9 +10,9 @@ export const needle: CaseStudy = {
 
   hero: {
     src: '/images/needle/cover.webp',
-    alt: 'Needle album rating app showing a ranked list of albums',
-    width: 2400,
-    height: 1500,
+    alt: 'Needle wordmark: a social media platform for music',
+    width: 1920,
+    height: 1080,
     caption: 'TODO: caption for the hero mockup.',
   },
 

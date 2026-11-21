@@ -5,7 +5,6 @@ import type { FilterOption } from '@/components/ui/FilterChips';
 import { ProjectTile } from '@/components/work/ProjectTile';
 import { categoryLabels } from '@/content/projects';
 import type { Project, ProjectCategory } from '@/content/projects';
-import { cn } from '@/lib/cn';
 import { DURATION, EASE_OUT } from '@/lib/motion';
 
 type Filter = 'all' | ProjectCategory;
@@ -18,11 +17,9 @@ type BentoGridProps = {
 };
 
 /**
- * Filter chips with counts above a bento grid of project tiles.
- *
- * Layout (desktop): a `large` tile takes 7 of 12 columns, a `medium` tile 5. Ordering large, medium, medium, large in projects.ts gives the
- * staggered two-row bento. Rows are sized from the viewport height, so two
- * rows fit on one screen. Tiles re-flow with Motion `layout` when filtering.
+ * Filter chips with counts above a grid of project tiles: two equal tiles
+ * per row from tablet up, one on phones. Every cover is 16:9, so 1920 x 1080
+ * exports show uncropped. Tiles re-flow with Motion `layout` when filtering.
  */
 export function BentoGrid({ projects, filterLabel, allLabel }: BentoGridProps) {
   const [filter, setFilter] = useState<Filter>('all');
@@ -46,7 +43,7 @@ export function BentoGrid({ projects, filterLabel, allLabel }: BentoGridProps) {
   return (
     <div className="flex flex-col gap-6">
       <FilterChips label={filterLabel} options={options} value={filter} onChange={setFilter} />
-      <ul className="grid grid-flow-dense auto-rows-[minmax(24rem,auto)] gap-4 md:grid-cols-2 lg:auto-rows-[clamp(26rem,52svh,31rem)] lg:grid-cols-12">
+      <ul className="grid gap-4 md:grid-cols-2 lg:gap-5">
         <AnimatePresence mode="popLayout" initial={false}>
           {visible.map((project) => (
             <motion.li
@@ -58,10 +55,7 @@ export function BentoGrid({ projects, filterLabel, allLabel }: BentoGridProps) {
               transition={{ duration: DURATION.base, ease: EASE_OUT }}
               // The hovered tile rises above its neighbours so its selection
               // label is never covered by the tile below it.
-              className={cn(
-                'relative z-0 focus-within:z-10 hover:z-10',
-                project.size === 'large' ? 'md:col-span-2 lg:col-span-7' : 'lg:col-span-5',
-              )}
+              className="relative z-0 focus-within:z-10 hover:z-10"
             >
               <ProjectTile project={project} />
             </motion.li>

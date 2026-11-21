@@ -15,10 +15,10 @@ You can also skip step 3 and reference a PNG/JPG directly; it just loads slower.
 
 | Folder       | File                                                       | Used for                                  | Export size     |
 | ------------ | ---------------------------------------------------------- | ----------------------------------------- | --------------- |
-| `grouper/`   | `cover.webp`                                               | Bento tile + case study hero              | 2400 x 1500     |
-| `needle/`    | `cover.webp`                                               | Bento tile + case study hero              | 2400 x 1500     |
-| `kain-na/`   | `cover.webp`                                               | Bento tile + case study hero              | 2400 x 1500     |
-| `rideshare/` | `cover.webp`                                               | Bento tile + case study hero              | 2400 x 1500     |
+| `grouper/`   | `cover.webp`                                               | Project tile + case study panel           | 1920 x 1080     |
+| `needle/`    | `cover.webp`                                               | Project tile + case study panel           | 1920 x 1080     |
+| `kain-na/`   | `cover.webp`                                               | Project tile + case study panel           | 1920 x 1080     |
+| `rideshare/` | `cover.webp`                                               | Project tile + case study panel           | 1920 x 1080     |
 | `<project>/` | `01.webp`, `02.webp`, ...                                  | Case study screenshots, in page order     | 2400 wide       |
 | `<project>/` | `before.webp`, `after.webp`                                | Before / After slider (same size each)    | 2400 wide       |
 | `needle/`    | `demo.mp4`, `demo-poster.webp`                             | Demo video and its still frame            | 1600 wide       |
@@ -27,7 +27,7 @@ You can also skip step 3 and reference a PNG/JPG directly; it just loads slower.
 | `logos/`     | `hack-at-uci.webp`, `uci-ics.webp`, ...                    | "Where I've designed", white on transparent | 720 wide      |
 | `tools/`     | `figma.webp`, `framer.webp`, ...                           | "Tools I design with" icons               | 256 x 256       |
 
-Bento covers are cropped to fit their tile, so keep the important part near the middle.
+Project covers show at 16:9. A 1920 x 1080 export shows whole; other shapes are cropped from the middle.
 
 Paths are set in `src/content/projects.ts` (covers, archive), `src/content/home.ts` (tools, logos, portrait) and `src/content/caseStudies/` (case study images).
 

@@ -9,9 +9,9 @@ export const grouper: CaseStudy = {
 
   hero: {
     src: '/images/grouper/cover.webp',
-    alt: 'Grouper trip planner showing a shared itinerary',
-    width: 2400,
-    height: 1500,
+    alt: 'Grouper’s trip dashboard on a phone beside the Grouper fish logo',
+    width: 1920,
+    height: 1280,
     caption: 'Grouper keeps a group’s itinerary, rides and money in one place.',
   },
 
@@ -36,7 +36,8 @@ export const grouper: CaseStudy = {
       'Where group chat plans go to survive. When friends plan a trip, the plan lives in a group chat: the schedule, the rides and the money owed get buried under messages.',
     audience: 'Friend groups planning trips together.',
     details: [
-      'TODO: what specifically broke down? A moment from a real trip (the missed ride, the debt nobody remembered) makes this land.',
+      'My friend and I had each built a small project for our own group trips: one tracked who owed whom, the other organized car assignments. Both helped on real trips, but they lived apart from the schedule and from each other.',
+      'At LA Hacks 2026 we asked, “Why not just combine our projects together?” That became Grouper: one place for group organization, debt tracking, car assignments and itinerary planning.',
     ],
   },
 
@@ -51,21 +52,33 @@ export const grouper: CaseStudy = {
 
   research: {
     methods: [
-      'TODO: how did you learn about the problem? (interviews, surveys, competitive audit)',
+      'Hackathon time was tight, so I cut parts of the standard design process and leaned on quick feedback.',
+      'Gathered feedback on core features from friends attending LA Hacks.',
+      'Reused the feedback friends had already given on our two earlier projects.',
     ],
-    participants: 'TODO: who did you talk to, and how many?',
+    participants:
+      'Friends attending LA Hacks 2026, plus friends who had used our earlier debt tracking and car organization projects.',
     insights: [
-      { title: 'TODO: insight 1', body: 'TODO: what you learned, and the evidence for it.' },
-      { title: 'TODO: insight 2', body: 'TODO: what you learned, and the evidence for it.' },
+      {
+        title: 'Groups needed a reason to use it',
+        body: 'The main pattern in the feedback was one question: what features would make this feasibly useful for groups?',
+      },
+      {
+        title: 'People asked why they needed a planning website at all',
+        body: 'Two tools were not enough to answer that. The concern pushed me to expand the scope around two ideas: group organization and itinerary planning.',
+      },
     ],
   },
 
   decisions: [
     {
-      title: 'TODO: decision 1 (e.g. how a shared cost gets split)',
-      options: ['TODO: option A', 'TODO: option B'],
-      choice: 'TODO: what you picked.',
-      why: 'TODO: why it won.',
+      title: 'Combine our two projects into one platform',
+      options: [
+        'Keep the debt tracker and the car organizer as separate tools',
+        'Merge them into one centralized planning website',
+      ],
+      choice: 'Merged them into one planning website (and soon an app).',
+      why: 'We already had a working basis for the core features, and one place for a trip was a stronger idea than two small tools, especially with only a hackathon’s worth of time.',
       image: {
         src: '/images/grouper/01.webp',
         alt: 'TODO: describe the screen',
@@ -75,10 +88,14 @@ export const grouper: CaseStudy = {
       },
     },
     {
-      title: 'TODO: decision 2 (e.g. how car assignments work)',
-      options: ['TODO: option A', 'TODO: option B'],
-      choice: 'TODO: what you picked.',
-      why: 'TODO: why it won.',
+      title: 'Make itinerary planning the main answer to “why Grouper?”',
+      options: [
+        'Stay focused on debt tracking and car assignments',
+        'Expand around group organization and itinerary planning',
+      ],
+      choice:
+        'Itinerary planning became the main pillar, with groups as a supplement that organizes friends or club members.',
+      why: 'Itinerary planning is what made the product useful on its own, adding shared plans, locating destinations, car assignments and schedule planning.',
       image: {
         src: '/images/grouper/02.webp',
         alt: 'TODO: describe the screen',
@@ -113,10 +130,17 @@ export const grouper: CaseStudy = {
       { value: '$11,000', label: 'settled between friends' },
       { value: '470', label: 'shared debts resolved' },
     ],
+    notes: [
+      'Grouper is still in development. After LA Hacks it went through a UI overhaul that gave the site its current visual identity.',
+      'UX changes since: relative sizing, optimistic UI, a simplified dashboard with quick actions and trips, a smart navbar, feature tutorials and easy-to-access profile editing.',
+    ],
   },
 
   reflection: {
     learned: ['TODO: what you learned.'],
-    next: ['TODO: what you would do next.'],
+    next: [
+      'Launch the mobile app.',
+      'Market Grouper to students at our university.',
+    ],
   },
 };

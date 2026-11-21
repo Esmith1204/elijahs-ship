@@ -1,5 +1,8 @@
 @import 'tailwindcss';
 
+/* Desktop screens under 560px tall: the sidebar details may need to scroll. */
+@custom-variant tiny (@media (min-width: 64rem) and (max-height: 35rem));
+
 /* ──────────────────────────────────────────────────────────────
    Elijah's Ship — design tokens
    This file is the single source of truth. Components use the

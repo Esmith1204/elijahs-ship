@@ -38,8 +38,6 @@ export type Project = {
   cover: ProjectImage;
   /** Featured projects get a bento tile and a case study at /work/:slug. */
   featured: boolean;
-  /** Bento tile size on desktop. */
-  size?: 'large' | 'medium';
   /** Tile tint. */
   tone?: 'surface' | 'purple' | 'blue';
   /** Live link, if public. Archive cards open it in a new tab. */
@@ -63,12 +61,11 @@ export const projects: Project[] = [
     tags: ['Product Design', 'Web App', 'Hackathon Winner'],
     cover: {
       src: '/images/grouper/cover.webp',
-      alt: 'Grouper trip planner showing a shared itinerary',
-      width: 2400,
-      height: 1500,
+      alt: 'Grouper’s trip dashboard on a phone beside the Grouper fish logo',
+      width: 1920,
+      height: 1280,
     },
     featured: true,
-    size: 'large',
     tone: 'surface',
     href: 'https://grouper.design',
   },
@@ -85,12 +82,11 @@ export const projects: Project[] = [
     tags: ['Product Design', 'Development', 'Web App'],
     cover: {
       src: '/images/needle/cover.webp',
-      alt: 'Needle album rating app showing a ranked list of albums',
-      width: 2400,
-      height: 1500,
+      alt: 'Needle wordmark: a social media platform for music',
+      width: 1920,
+      height: 1080,
     },
     featured: true,
-    size: 'medium',
     tone: 'purple',
     href: 'https://music-virid-theta.vercel.app',
   },
@@ -109,13 +105,14 @@ export const projects: Project[] = [
     tags: ['Product Design', 'Mobile App', 'HCI Coursework'],
     cover: {
       src: '/images/rideshare/cover.webp',
-      alt: 'Rideshare. app showing transportation options for students',
-      width: 2400,
-      height: 1500,
+      alt: 'Rideshare. logo beside two phones showing upcoming group trips and a trip itinerary',
+      width: 1440,
+      height: 834,
     },
     featured: true,
-    size: 'medium',
     tone: 'blue',
+    href: 'https://rideshare.framer.website',
+    hrefLabel: 'Visit the project site',
   },
   {
     slug: 'kain-na',
@@ -129,12 +126,11 @@ export const projects: Project[] = [
     tags: ['Product Design', 'Mobile App'],
     cover: {
       src: '/images/kain-na/cover.webp',
-      alt: 'Kain Na! cooking app showing a family recipe',
-      width: 2400,
-      height: 1500,
+      alt: 'Kain na! logo: a pig wearing a chef’s hat',
+      width: 1920,
+      height: 1080,
     },
     featured: true,
-    size: 'large',
     tone: 'surface',
     href: 'https://canva.link/dloabw95302eweg',
     hrefLabel: 'View the pitch deck',

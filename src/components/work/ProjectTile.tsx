@@ -43,7 +43,7 @@ export function ProjectTile({ project, className }: ProjectTileProps) {
             tones[tone],
           )}
         >
-          <div className="relative min-h-36 flex-1 overflow-hidden">
+          <div className="relative aspect-video overflow-hidden">
             <motion.div
               variants={{ rest: { scale: 1 }, hover: { scale: 1.03 } }}
               transition={transition}
@@ -57,7 +57,7 @@ export function ProjectTile({ project, className }: ProjectTileProps) {
             </motion.div>
           </div>
 
-          <div className="flex flex-col gap-2 p-5">
+          <div className="flex flex-1 flex-col gap-2 p-5">
             <ul className="flex flex-wrap gap-2" aria-label="Tags">
               {tags.map((tag) => (
                 <li key={tag}>

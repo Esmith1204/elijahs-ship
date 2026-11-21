@@ -10,6 +10,10 @@ type FigureProps = {
   image: CaseImage;
   /** Load eagerly (the hero). */
   priority?: boolean;
+  /** Crop to 16:9 (the full image still opens in the lightbox). */
+  video?: boolean;
+  /** Show the caption under the image. It always shows in the full-size view. */
+  showCaption?: boolean;
   className?: string;
 };
 
@@ -17,10 +21,16 @@ type FigureProps = {
  * A captioned image. Click (or Enter) opens it full size in a lightbox, so
  * small UI text in screenshots stays readable. Esc or a click outside closes it.
  */
-export function Figure({ image, priority = false, className }: FigureProps) {
+export function Figure({
+  image,
+  priority = false,
+  video = false,
+  showCaption = true,
+  className,
+}: FigureProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const exists = imageExists(image.src);
-  const ratio = `${image.width} / ${image.height}`;
+  const ratio = video ? '16 / 9' : `${image.width} / ${image.height}`;
 
   return (
     <figure className={cn('flex flex-col gap-3', className)}>
@@ -37,7 +47,10 @@ export function Figure({ image, priority = false, className }: FigureProps) {
             height={image.height}
             loading={priority ? 'eager' : 'lazy'}
             decoding="async"
-            className="block h-auto w-full transition-transform duration-500 ease-out-expo group-hover/zoom:scale-[1.015]"
+            className={cn(
+              'block h-auto w-full transition-transform duration-500 ease-out-expo group-hover/zoom:scale-[1.015]',
+              video && 'aspect-video object-cover',
+            )}
           />
           <span className="sr-only">Open full size</span>
         </button>
@@ -50,9 +63,11 @@ export function Figure({ image, priority = false, className }: FigureProps) {
         />
       )}
 
-      <Text as="figcaption" className="text-small text-ink-muted">
-        {image.caption}
-      </Text>
+      {showCaption ? (
+        <Text as="figcaption" className="text-small text-ink-muted">
+          {image.caption}
+        </Text>
+      ) : null}
 
       {exists && (
         <dialog

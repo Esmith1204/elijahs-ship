@@ -56,8 +56,8 @@ export function Bullets({ items, className }: { items: string[]; className?: str
   );
 }
 
-/** Role · Timeline · Team · Platform · Tools. */
-export function MetaRow({ meta }: { meta: CaseStudy['meta'] }) {
+/** Role · Timeline · Team · Platform · Tools, in a row at the top of the case study. */
+export function MetaList({ meta }: { meta: CaseStudy['meta'] }) {
   const rows = [
     ['Role', meta.role],
     ['Timeline', meta.timeline],
@@ -67,9 +67,9 @@ export function MetaRow({ meta }: { meta: CaseStudy['meta'] }) {
   ] as const;
 
   return (
-    <dl className="grid grid-cols-2 gap-x-6 gap-y-5 border-y border-line py-6 md:grid-cols-5">
+    <dl className="grid grid-cols-2 gap-x-6 gap-y-4 border-y border-line py-5 sm:flex sm:flex-wrap sm:gap-x-10">
       {rows.map(([label, value]) => (
-        <div key={label} className="flex flex-col gap-1">
+        <div key={label} className="flex flex-col gap-0.5">
           <dt className="text-small text-ink-muted">{label}</dt>
           <Text as="dd" className="font-medium">
             {value}
@@ -80,7 +80,7 @@ export function MetaRow({ meta }: { meta: CaseStudy['meta'] }) {
   );
 }
 
-/** TL;DR: problem, what I did, result. */
+/** TL;DR: problem, what I did, result, as labelled rows in one card. */
 export function Tldr({ tldr }: { tldr: CaseStudy['tldr'] }) {
   const rows = [
     ['Problem', tldr.problem],
@@ -89,9 +89,12 @@ export function Tldr({ tldr }: { tldr: CaseStudy['tldr'] }) {
   ] as const;
 
   return (
-    <RevealList className="grid gap-4 md:grid-cols-3">
+    <RevealList className="flex flex-col divide-y divide-line rounded-tile bg-surface px-6">
       {rows.map(([label, value]) => (
-        <RevealListItem key={label} className="flex flex-col gap-3 rounded-tile bg-surface p-6">
+        <RevealListItem
+          key={label}
+          className="grid gap-2 py-5 sm:grid-cols-[8rem_minmax(0,1fr)] sm:gap-6"
+        >
           <Label>{label}</Label>
           <Text className="text-ink-muted">{value}</Text>
         </RevealListItem>
@@ -102,7 +105,7 @@ export function Tldr({ tldr }: { tldr: CaseStudy['tldr'] }) {
 
 export function InsightCards({ insights }: { insights: Insight[] }) {
   return (
-    <RevealList className="grid gap-4 md:grid-cols-2">
+    <RevealList className="grid gap-4 md:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
       {insights.map((insight, index) => (
         <RevealListItem
           key={index}
@@ -123,7 +126,7 @@ export function InsightCards({ insights }: { insights: Insight[] }) {
 
 export function DecisionBlock({ decision, index }: { decision: Decision; index: number }) {
   return (
-    <article className="grid gap-8 rounded-tile-lg border border-line bg-surface p-6 md:p-8 lg:grid-cols-[minmax(0,2fr)_minmax(0,3fr)] lg:gap-10">
+    <article className="flex flex-col gap-8 rounded-tile-lg border border-line bg-surface p-6 md:p-8">
       <div className="flex flex-col gap-6">
         <div className="flex items-baseline gap-3">
           <span aria-hidden="true" className="font-display text-h3 font-semibold text-highlight">
@@ -163,7 +166,7 @@ export function StatCards({ stats }: { stats: Stat[] }) {
             isTodo(stat.value) && 'outline-1 -outline-offset-1 outline-highlight/60 outline-dashed',
           )}
         >
-          <p className="font-display text-display leading-none font-semibold break-words">
+          <p className="font-display text-h1 leading-none font-semibold break-words">
             {isTodo(stat.value) ? '—' : stat.value}
           </p>
           <Text className="text-small text-ink-muted">{stat.label}</Text>

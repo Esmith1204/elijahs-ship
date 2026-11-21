@@ -51,7 +51,7 @@ Open `projects.ts`, copy this block into the `projects` list and fill it in:
 ```
 
 - `featured: false` puts it in the archive grid. If it has an `href`, the card opens that link.
-- `featured: true` puts it in the Selected Projects bento and gives it a case study page at `/work/your-slug` (see below). Also set `size` (`'large'` or `'medium'`) and `tone` (`'surface'`, `'purple'` or `'blue'`). Ordering large, medium, medium, large gives the staggered bento.
+- `featured: true` puts it in the Selected Projects bento and gives it a case study page at `/work/your-slug` (see below). Tiles sit two per row in the order listed. `tone` (`'surface'`, `'purple'` or `'blue'`) tints the tile.
 - Archive cards resize to fit: up to six per row, then a new row. The filter chips and counts update on their own.
 
 ## Write a case study
@@ -79,7 +79,7 @@ To add a new case study: add the project to `projects.ts` with `featured: true`,
 
 ## Add images
 
-Drop the file into `public/images/` at the path you wrote in `src`. Until the file exists the site shows a placeholder naming the file it is waiting for. See `public/images/README.md` for sizes and names. Bento covers are cropped to fit their tile, so keep the important part of the image near the middle.
+Drop the file into `public/images/` at the path you wrote in `src`. Until the file exists the site shows a placeholder naming the file it is waiting for. See `public/images/README.md` for sizes and names. Project covers show at 16:9: export them at 1920 x 1080 and nothing gets cropped.
 
 ## Rules of thumb
 
